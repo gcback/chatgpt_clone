@@ -44,6 +44,6 @@ app.*.map.json
 /android/app/release
 
 
-assets/config/.env
-model/*.freezed.dart
-model/*.g.dart
+/assets/config/.env
+/lib/model/*.freezed.dart
+/lib/model/*.g.dart
