@@ -45,3 +45,5 @@ app.*.map.json
 
 
 /assets/config/.env
+/model/*.freezed.dart
+/model/*.g.dart
