@@ -41,6 +41,8 @@ dependencies:
   freezed_annotation: ^2.2.0
   json_annotation: ^4.8.1
   hooks_riverpod: ^2.3.6
+  mylib:
+    path: ../mylib
 
 dev_dependencies:
   flutter_test:

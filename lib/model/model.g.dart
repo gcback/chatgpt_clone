@@ -17,16 +17,28 @@ Map<String, dynamic> _$$_MessageToJson(_$_Message instance) =>
       'content': instance.content,
     };
 
+_$_Delta _$$_DeltaFromJson(Map<String, dynamic> json) => _$_Delta(
+      role: json['role'] as String? ?? 'user',
+      content: json['content'] as String?,
+    );
+
+Map<String, dynamic> _$$_DeltaToJson(_$_Delta instance) => <String, dynamic>{
+      'role': instance.role,
+      'content': instance.content,
+    };
+
 _$_ChatResponse _$$_ChatResponseFromJson(Map<String, dynamic> json) =>
     _$_ChatResponse(
-      id: json['id'] as String,
-      object: json['object'] as String,
-      created: (json['created'] as num).toDouble(),
-      model: json['model'] as String,
+      id: json['id'] as String? ?? '0000',
+      object: json['object'] as String? ?? '0000',
+      created: (json['created'] as num?)?.toDouble() ?? 0.0,
+      model: json['model'] as String? ?? '0000',
       choices: (json['choices'] as List<dynamic>)
           .map((e) => Choice.fromJson(e as Map<String, dynamic>))
           .toList(),
-      usage: Usage.fromJson(json['usage'] as Map<String, dynamic>),
+      usage: json['usage'] == null
+          ? null
+          : Usage.fromJson(json['usage'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_ChatResponseToJson(_$_ChatResponse instance) =>
@@ -41,13 +53,15 @@ Map<String, dynamic> _$$_ChatResponseToJson(_$_ChatResponse instance) =>
 
 _$_Choice _$$_ChoiceFromJson(Map<String, dynamic> json) => _$_Choice(
       index: json['index'] as int,
-      message: Message.fromJson(json['message'] as Map<String, dynamic>),
-      finish_reason: json['finish_reason'] as String,
+      delta: json['delta'] == null
+          ? null
+          : Delta.fromJson(json['delta'] as Map<String, dynamic>),
+      finish_reason: json['finish_reason'] as String?,
     );
 
 Map<String, dynamic> _$$_ChoiceToJson(_$_Choice instance) => <String, dynamic>{
       'index': instance.index,
-      'message': instance.message,
+      'delta': instance.delta,
       'finish_reason': instance.finish_reason,
     };
 
