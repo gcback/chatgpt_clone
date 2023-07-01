@@ -43,8 +43,6 @@ dependencies:
   hooks_riverpod: ^2.3.6
   record: ^4.4.4
   path_provider: ^2.0.15
-  mylib:
-    path: ../mylib
 
 dev_dependencies:
   flutter_test:
