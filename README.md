@@ -12,6 +12,8 @@ OpenAI가 제공하는 API에서 Chat에 필요한 필수 기능을 활용합니
 # 준비
 - API KEY
   - OpenAI api 사용을 위해서는 OpenAI가 제공하는 **유료 KEY**를 받으셔야 합니다. 
+  - openai.com 본인 계정에서 확인하실 수 있습니다.
+    - https://platform.openai.com/account/api-keys
 
 - Record 패키지를 이용하기 위해 [플랫폼별 설정](https://pub.dev/packages/record#platforms)이 필요합니다.
 
