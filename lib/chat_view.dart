@@ -5,12 +5,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'chat_providers.dart';
 import 'model/model.dart';
+import 'speech_sheet.dart';
 
+///
+/// chat title bar
 const titleWidget = Text('chatME',
-    style: TextStyle(
-      color: Colors.black45,
-      fontWeight: FontWeight.bold,
-    ));
+    style: TextStyle(color: Colors.black45, fontWeight: FontWeight.bold));
 
 ///
 /// Response가 완료된 chat 항목 표시
@@ -57,9 +57,7 @@ class ChatResponseToConinue extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final chatStream = ref.watch(newChatProvider(
-      (query: query, model: dotenv.env['MODEL']!),
-    ));
+    final chatResponseProvider = ref.watch(newChatProvider(query));
     final paragraph = useRef('');
 
     return Container(
@@ -76,7 +74,7 @@ class ChatResponseToConinue extends HookConsumerWidget {
             children: [
               const SizedBox(width: 32.0),
               Expanded(
-                child: chatStream.when(
+                child: chatResponseProvider.when(
                   data: (data) {
                     // Response가 끝은 마지막 token을 확인합니다.
                     if (data.contains(kChatEndToken)) {
@@ -98,6 +96,7 @@ class ChatResponseToConinue extends HookConsumerWidget {
                     } else {
                       paragraph.value = data;
                     }
+                    // 수신된 token들을 이어붙이고 마지막에 Unicode 이모티콘(⚫)을 추가합니다.
                     return Text('${paragraph.value}\u{26AB}');
                   },
                   error: (error, stackTrace) => Text(error.toString()),
@@ -113,6 +112,11 @@ class ChatResponseToConinue extends HookConsumerWidget {
   }
 }
 
+///
+/// openai로 보낼 chat message를 위한 TextField Widget입니다.
+///   타이핑과 음성레코딩 두가지를 지원하니다.
+///   - chat in typing
+///   - voice record
 class ChatEditBar extends HookConsumerWidget {
   const ChatEditBar({super.key});
 
@@ -126,7 +130,7 @@ class ChatEditBar extends HookConsumerWidget {
       ref.read(chatListProvider.notifier).add(
             Chat(
               request: ChatRequest(
-                model: dotenv.env['MODEL']!,
+                model: dotenv.env['CHAT_MODEL']!,
                 messages: [Message(content: query)],
               ),
             ),
@@ -170,7 +174,15 @@ class ChatEditBar extends HookConsumerWidget {
                     ),
                   ),
                   IconButton(
-                      onPressed: () => (), icon: const Icon(Icons.graphic_eq)),
+                      onPressed: () {
+                        showModalBottomSheet<String>(
+                          context: context,
+                          builder: (context) => const RecrdingSheet(),
+                        ).then((value) {
+                          editController.text = value ?? '';
+                        });
+                      },
+                      icon: const Icon(Icons.graphic_eq)),
                   const SizedBox(width: 8.0),
                 ],
               ),

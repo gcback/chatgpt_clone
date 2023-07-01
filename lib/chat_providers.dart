@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'data/fetch_openai.dart';
@@ -24,13 +25,12 @@ class ChatListProvider extends Notifier<ChatList> {
 final chatListProvider =
     NotifierProvider<ChatListProvider, ChatList>(ChatListProvider.new);
 
-final newChatProvider = StreamProvider.family
-    .autoDispose<String, ({String query, String model})>((ref, params) async* {
-  final api = ref.watch(fetchProvider);
+final newChatProvider =
+    StreamProvider.family.autoDispose<String, String>((ref, query) async* {
+  final api = ref.watch(apiProvider);
 
-  final Stream<String?> wordsStream = api.fetch(
-    messages: [Message(content: params.query)],
-    model: params.model,
+  final Stream<String?> wordsStream = api.chatCompletion(
+    messages: [Message(content: query)],
   );
 
   var content = "";

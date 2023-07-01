@@ -8,17 +8,16 @@ import '../model/model.dart';
 
 class FetchUtil {
   const FetchUtil({
-    required this.uri,
     required this.apiKey,
     required this.organization,
   });
 
-  final String uri;
   final String apiKey;
   final String organization;
 
-  Stream<String?> fetch({
-    required String model,
+  ///
+  /// Creates a model response for the given chat conversation
+  Stream<String?> chatCompletion({
     required List<Message> messages,
   }) async* {
     final Map<String, String> headers = {
@@ -28,11 +27,12 @@ class FetchUtil {
       'OpenAI-Organization': organization,
     };
     final client = http.Client();
-    final request = http.Request('POST', Uri.parse(uri));
+    final request =
+        http.Request('POST', Uri.parse(dotenv.env['CHAT_ENDPOINT']!));
 
     request.headers.addAll(headers);
     request.body = jsonEncode({
-      "model": model,
+      "model": dotenv.env['CHAT_MODEL']!,
       "stream": true, // <----- stream mode for chat completion mode
       "messages": messages,
     });
@@ -75,11 +75,51 @@ class FetchUtil {
 
     client.close();
   }
+
+  ///
+  /// Transcribes audio into the input language.
+  Future<Map<String, dynamic>> transcriptions({
+    // required String uri,
+    required String filepath,
+  }) async {
+    final Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      // 'Accept': 'application/json',
+      'Authorization': 'Bearer $apiKey',
+      'OpenAI-Organization': organization,
+    };
+
+    ///
+    /// File 전송은 http.MultipartFile.fromPath를 이용합니다.
+    final request =
+        http.MultipartRequest('POST', Uri.parse(dotenv.env['AUDIO_ENDPOINT']!));
+    request.headers.addAll(headers);
+    request.fields['model'] = dotenv.env['AUDIO_MODEL']!;
+    request.files.add(
+      await http.MultipartFile.fromPath('file', filepath),
+    );
+
+    final streamedResponse = await request.send();
+    if (streamedResponse.statusCode == 200) {
+      var response = await http.Response.fromStream(streamedResponse);
+      var responseBody = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> resultJson = jsonDecode(responseBody);
+      final resultCode = {'result': 200};
+      resultJson.addEntries(resultCode.entries);
+
+      return resultJson;
+    }
+
+    return {
+      'result': streamedResponse.statusCode,
+      'cause': streamedResponse.reasonPhrase,
+    };
+  }
 }
 
-final fetchProvider = Provider<FetchUtil>(
+final apiProvider = Provider<FetchUtil>(
   (ref) => FetchUtil(
-    uri: dotenv.env['CHAT_ENDPOINT']!,
     apiKey: dotenv.env['API_KEY']!,
     organization: dotenv.env['ORGANIZATION']!,
   ),

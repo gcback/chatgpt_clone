@@ -109,7 +109,7 @@ class Chat with _$Chat {
 
 typedef ChatList = List<Chat>;
 
-/// Chat completion API의 HTTP Response는 Stream인데 body 형식은 SSE(Server-Side Event) 형태입니다.
+/// Chat completion API의 HTTP Response는 Stream일 경우 body는 SSE(Server-Side Event) 형태입니다.
 ///   ref:
 ///      - https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events
 ///      - https://github.com/cfug/dio/issues/1279
@@ -126,4 +126,5 @@ typedef ChatList = List<Chat>;
 //   }
 // }
 
+/// openai api들에서 response 종료 토큰으로 사용합니다.
 const String kChatEndToken = '[DONE]';
