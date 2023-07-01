@@ -6,7 +6,9 @@ OpenAI가 제공하는 API에서 Chat에 필요한 필수 기능을 활용합니
  - chat completion : 질의 응답. openai 언어모델을 이용합니다.
  - speech-to-text : 음성녹음을 text로 변환하여 chat completion을 수행합니다. 변환은 openai whisper 모델을 이용합니다.
 
-<img width="50%" src"https://github.com/gcback/chatgpt_clone/assets/10203092/9ba494c7-88d8-472b-9bb2-a471a1b302f4" title='goog'/>
+![c](https://github.com/gcback/chatgpt_clone/assets/10203092/be0b0dbd-1204-47ef-b10c-8740b03b9b42)
+![b](https://github.com/gcback/chatgpt_clone/assets/10203092/e4d260ed-38d7-4395-8c86-ed2372e3fcfc)
+
 # 준비
 - API KEY
   - OpenAI api 사용을 위해서는 OpenAI가 제공하는 **유료 KEY**를 받으셔야 합니다. 
