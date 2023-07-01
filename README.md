@@ -6,6 +6,9 @@ OpenAI가 제공하는 API에서 Chat에 필요한 필수 기능을 활용합니
  - chat completion : 질의 응답. openai 언어모델을 이용합니다.
  - speech-to-text : 음성녹음을 text로 변환하여 chat completion을 수행합니다. 변환은 openai whisper 모델을 이용합니다.
 
+|                                       |
+|:-------------------------------------:|
+| ![](https://github.com/gcback/chatgpt_clone/assets/10203092/9ba494c7-88d8-472b-9bb2-a471a1b302f4 "Tonejito") | ![](https://github.com/gcback/chatgpt_clone/assets/10203092/f1934625-e1fa-4e4c-8a34-4e114a507d73 "Tonejito") | ![](https://github.com/gcback/chatgpt_clone/assets/10203092/f745060a-c5ff-40b6-9e2a-c8e03f3920d9 "Tonejito") |
 
 
 
