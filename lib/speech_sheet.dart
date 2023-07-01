@@ -77,7 +77,7 @@ class RecrdingSheet extends HookConsumerWidget {
                     if (filepath != null) {
                       ref
                           .read(apiProvider)
-                          .transcriptions(filepath: filepath!)
+                          .transcriptions(filepath: filepath)
                           .then((result) =>
                               Navigator.pop(context, result['text']));
                     } else {
