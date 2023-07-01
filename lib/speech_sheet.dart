@@ -1,10 +1,10 @@
 import 'package:chatgpt_clone/data/fetch_openai.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mylib/mylib.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:record/record.dart';
 import 'data/record_hooks.dart';
+import 'util/mylib.dart';
 
 class RecrdingSheet extends HookConsumerWidget {
   const RecrdingSheet({super.key});
@@ -77,7 +77,7 @@ class RecrdingSheet extends HookConsumerWidget {
                     if (filepath != null) {
                       ref
                           .read(apiProvider)
-                          .transcriptions(filepath: filepath!)
+                          .transcriptions(filepath: filepath)
                           .then((result) =>
                               Navigator.pop(context, result['text']));
                     } else {
